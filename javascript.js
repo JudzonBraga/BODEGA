@@ -416,12 +416,16 @@
 
         function mostrarCarrito() {
             const modal = document.getElementById('cart-modal');
-            const itemsDiv = document.getElementById('cart-items');
-            const totalSpan = document.getElementById('cart-total');
-            const checkoutBtn = document.getElementById('checkoutBtn');
-            const deliveryOptionsDiv = document.getElementById('deliveryOptions');
-
-            if (modal) modal.classList.remove('hidden');
+    const itemsDiv = document.getElementById('cart-items');
+    const totalSpan = document.getElementById('cart-total');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const deliveryOptionsDiv = document.getElementById('deliveryOptions');
+    
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('show');
+        document.body.classList.add('modal-open'); // Bloquear body
+    }
 
             const carritoVacio = carrito.length === 0;
 
@@ -509,7 +513,14 @@
             if (modalCount) modalCount.textContent = carrito.length;
         }
 
-        function ocultarCarrito() { const modal = document.getElementById('cart-modal'); if (modal) modal.classList.add('hidden'); }
+        function ocultarCarrito() { 
+    const modal = document.getElementById('cart-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('show');
+        document.body.classList.remove('modal-open'); // Desbloquear body
+    }
+}
         function cambiarCantidad(idx, cambio) {
             if (!carrito[idx]) return;
             carrito[idx].cantidad += cambio;
@@ -587,8 +598,19 @@
             return mensaje;
         }
 
-        function cerrarSiClickFuera(event) { const modal = document.getElementById('cart-modal'); const modalContent = document.querySelector('.cart-modal-content'); if (!modal.classList.contains('hidden') && modalContent && (event.target === modal || !modalContent.contains(event.target))) ocultarCarrito(); }
-        function cerrarConEscape(event) { if (event.key === 'Escape') ocultarCarrito(); }
+        function cerrarSiClickFuera(event) { 
+    const modal = document.getElementById('cart-modal');
+    const modalContent = document.querySelector('.cart-modal-content'); 
+    if (modal && modal.classList.contains('show') && modalContent && 
+        (event.target === modal || !modalContent.contains(event.target))) {
+        ocultarCarrito(); 
+    }
+}
+function cerrarConEscape(event) { 
+    if (event.key === 'Escape') {
+        ocultarCarrito(); 
+    }
+}
         function attachModalEventListeners() { const modal = document.getElementById('cart-modal'); if (modal) modal.addEventListener('click', cerrarSiClickFuera); const modalContent = document.querySelector('.cart-modal-content'); if (modalContent) modalContent.addEventListener('click', e => e.stopPropagation()); document.addEventListener('keydown', cerrarConEscape); }
 
         // ==================== FUNCIONES DE PERFIL ====================

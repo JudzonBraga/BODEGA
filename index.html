@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doña Cucha Market - Tu Supermercado Online en Lima</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+
+<body>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 99999; align-items: center; justify-content: center;">
+        <div
+            style="background: white; padding: 20px 40px; border-radius: 16px; display: flex; align-items: center; gap: 16px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #059669;"></i>
+            <span>Cargando...</span>
+        </div>
+    </div>
+
+    <!-- ==================== MENÚ PRINCIPAL ==================== -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo-area">
+                    <div class="logo-icon">🛒</div>
+                    <div>
+                        <h1 class="logo-text">Doña Cucha</h1>
+                        <p class="logo-sub">Market</p>
+                    </div>
+                </div>
+
+                <div class="search-area">
+                    <input id="search-input" type="text" placeholder="¿Qué estás buscando hoy?" class="search-input"
+                        onkeyup="buscarProductosTiempoReal()">
+                    <button onclick="buscarProductosTiempoReal()" class="search-button">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+                <div class="top-bar-right">
+                    <div id="notLoggedIn" class="user-not-logged" onclick="mostrarLogin()">
+                        <span class="user-name">Ingresar</span>
+                        <i class="fa-solid fa-user-circle user-icon"></i>
+                    </div>
+                    <div id="loggedIn" class="user-dropdown" style="display: none;">
+                        <div class="user-avatar" id="userAvatar">D</div>
+                        <div class="dropdown-menu" id="userDropdownMenu">
+                            <div class="dropdown-header">
+                                <div class="user-name" id="dropdownUserName">Usuario</div>
+                                <div class="user-email" id="dropdownUserEmail">usuario@email.com</div>
+                            </div>
+                            <div class="dropdown-item" onclick="verMiPerfil()"><i class="fas fa-user"></i> Mi Perfil
+                            </div>
+                            <div class="dropdown-item logout" onclick="cerrarSesion()"><i
+                                    class="fas fa-sign-out-alt"></i> Cerrar Sesión</div>
+                        </div>
+                    </div>
+                    <div class="cart-icon" onclick="mostrarCarrito()">
+                        <i class="fa-solid fa-shopping-cart user-icon"></i>
+                        <span id="cart-count" class="cart-badge">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== CINTILLO2 - CATEGORÍAS ==================== -->
+    <section class="cintillo2">
+        <div class="cintillo-items-wrapper">
+            <div class="cintillo-item" onclick="gestionarClicCategoria('abarrotes', 'Abarrotes')">
+                <div class="cintillo-icon">🍚</div>
+                <p class="cintillo-title">Abarrotes</p>
+            </div>
+            <div class="cintillo-item" onclick="gestionarClicCategoria('frutas', 'Frutas y Verduras')">
+                <div class="cintillo-icon">🍎</div>
+                <p class="cintillo-title">Frutas y Verduras</p>
+            </div>
+            <div class="cintillo-item" onclick="gestionarClicCategoria('bebidas', 'Bebidas')">
+                <div class="cintillo-icon">🥤</div>
+                <p class="cintillo-title">Bebidas</p>
+            </div>
+            <div class="cintillo-item" onclick="gestionarClicCategoria('licores', 'Licores')">
+                <div class="cintillo-icon">🍷</div>
+                <p class="cintillo-title">Licores</p>
+            </div>
+            <div class="cintillo-item" onclick="gestionarClicCategoria('limpieza', 'Limpieza')">
+                <div class="cintillo-icon">🧹</div>
+                <p class="cintillo-title">Limpieza</p>
+            </div>
+            <div class="cintillo-item" onclick="gestionarClicCategoria('snacks', 'Snacks')">
+                <div class="cintillo-icon">🍪</div>
+                <p class="cintillo-title">Snacks</p>
+            </div>
+            <div class="cintillo-item" onclick="gestionarClicCategoria('lacteos', 'Lácteos')">
+                <div class="cintillo-icon">🥛</div>
+                <p class="cintillo-title">Lácteos</p>
+            </div>
+            <div class="cintillo-item" onclick="gestionarClicCategoria('carnes', 'Carnes')">
+                <div class="cintillo-icon">🍗</div>
+                <p class="cintillo-title">Carnes</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <!-- ==================== CARRUSEL ==================== -->
+        <section id="banner" class="carousel">
+            <div id="slides">
+                <div class="slide active"
+                    style="background-image: linear-gradient(to right, rgb(0 0 0) 0%, rgb(0 0 0 / 53%) 50%, rgb(0 0 0 / 0%) 100%), url('https://pbs.twimg.com/media/CtE3mpfW8AA0lOQ.jpg')">
+                    <div class="slide-content">
+                        <span class="slide-tag">¡OFERTA DEL DÍA!</span>
+                        <h2 class="slide-title">Arroz Costeño 5kg</h2>
+                        <p class="slide-desc">S/ 19.90 • Ahorra S/ 5.00</p>
+                        <button onclick="agregarAlCarrito(1001)" class="slide-button">Comprar Ahora</button>
+                    </div>
+                </div>
+                <div class="slide"
+                    style="background-image: linear-gradient(to right, rgb(0 0 0) 0%, rgb(0 0 0 / 53%) 50%, rgb(0 0 0 / 0%) 100%), url('https://i.blogs.es/350498/aceite_oliva2/840_560.jpg')">
+                    <div class="slide-content">
+                        <span class="slide-tag green">SUPER OFERTA</span>
+                        <h2 class="slide-title">Aceite Primor 1L</h2>
+                        <p class="slide-desc">S/ 8.90 • 2x S/ 16.00</p>
+                        <button onclick="agregarAlCarrito(1003)" class="slide-button">Aprovechar</button>
+                    </div>
+                </div>
+                <div class="slide"
+                    style="background-image: linear-gradient(to right, rgb(0 0 0) 0%, rgb(0 0 0 / 53%) 50%, rgb(0 0 0 / 0%) 100%), url('https://imgmedia.larepublica.pe/1200x735/larepublica/original/2022/10/21/6352ab39f1fe2c690b65f445.jpg')">
+                    <div class="slide-content">
+                        <span class="slide-tag amber">PROMO</span>
+                        <h2 class="slide-title">Leche Gloria 1L</h2>
+                        <p class="slide-desc">S/ 4.50 • 6 unidades S/ 25.00</p>
+                        <button onclick="agregarAlCarrito(4001)" class="slide-button">Agregar</button>
+                    </div>
+                </div>
+                <div class="slide"
+                    style="background-image: linear-gradient(to right, rgb(0 0 0) 0%, rgb(0 0 0 / 53%) 50%, rgb(0 0 0 / 0%) 100%), url('https://imgmedia.larepublica.pe/1000x590/larepublica/original/2023/10/19/6531cf9b2be12c116a3657a6.webp')">
+                    <div class="slide-content">
+                        <span class="slide-tag">FRESCURA</span>
+                        <h2 class="slide-title">Pollo Entero</h2>
+                        <p class="slide-desc">S/ 12.90/kg • Pollo fresco del día</p>
+                        <button onclick="agregarAlCarrito(5001)" class="slide-button">Pedir</button>
+                    </div>
+                </div>
+                <div class="slide"
+                    style="background-image: linear-gradient(to right, rgb(0 0 0) 0%, rgb(0 0 0 / 53%) 50%, rgb(0 0 0 / 0%) 100%), url('https://marketinginsiderreview.com/wp-content/uploads/2020/07/estrategia-marketing-coca-cola-900x506.webp')">
+                    <div class="slide-content">
+                        <span class="slide-tag green">EXPRESS</span>
+                        <h2 class="slide-title">Coca-Cola 2.5L</h2>
+                        <p class="slide-desc">S/ 7.90 • Pack 3 unidades S/ 22.00</p>
+                        <button onclick="agregarAlCarrito(2001)" class="slide-button">Comprar</button>
+                    </div>
+                </div>
+            </div>
+            <button onclick="prevSlide()" class="carousel-control prev">‹</button>
+            <button onclick="nextSlide()" class="carousel-control next">›</button>
+            <div class="carousel-dots" id="dots"></div>
+        </section>
+
+        <!-- ==================== CINTILLO ==================== -->
+        <section class="cintillo">
+            <div class="cintillo-item">
+                <div class="cintillo-icon">🚚</div>
+                <div>
+                    <p class="cintillo-title">Envío Express</p>
+                    <p class="cintillo-desc">30 minutos</p>
+                </div>
+            </div>
+            <div class="cintillo-item">
+                <div class="cintillo-icon">🏪</div>
+                <div>
+                    <p class="cintillo-title">Recojo en Tienda</p>
+                    <p class="cintillo-desc">Gratis</p>
+                </div>
+            </div>
+            <div class="cintillo-item">
+                <div class="cintillo-icon">🔒</div>
+                <div>
+                    <p class="cintillo-title">Pago Seguro</p>
+                    <p class="cintillo-desc">Yape • Plin</p>
+                </div>
+            </div>
+            <div class="cintillo-item">
+                <div class="cintillo-icon">⭐</div>
+                <div>
+                    <p class="cintillo-title">+15.000 Clientes</p>
+                    <p class="cintillo-desc">4.9/5</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PRODUCTOS DESTACADOS ==================== -->
+        <section id="destacados" class="mt-16">
+            <div class="section-title" style="margin-bottom: 40px;">Productos Destacados</div>
+
+            <div id="abarrotes" class="category">
+                <div class="category-header">
+                    <h3 class="cat-title">🍚 Abarrotes</h3><button onclick="verCategoria('Abarrotes')"
+                        class="view-all">Ver todos <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                <div class="products-grid"></div>
+            </div>
+            <div id="frutas" class="category">
+                <div class="category-header">
+                    <h3 class="cat-title">🍎 Frutas y Verduras</h3><button onclick="verCategoria('Frutas')"
+                        class="view-all">Ver todos <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                <div class="products-grid"></div>
+            </div>
+            <div id="bebidas" class="category">
+                <div class="category-header">
+                    <h3 class="cat-title">🥤 Bebidas</h3><button onclick="verCategoria('Bebidas')" class="view-all">Ver
+                        todos <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                <div class="products-grid"></div>
+            </div>
+            <div id="licores" class="category">
+                <div class="category-header">
+                    <h3 class="cat-title">🍷 Licores</h3><button onclick="verCategoria('Licores')" class="view-all">Ver
+                        todos <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                <div class="products-grid"></div>
+            </div>
+            <div id="limpieza" class="category">
+                <div class="category-header">
+                    <h3 class="cat-title">🧹 Limpieza</h3><button onclick="verCategoria('Limpieza')"
+                        class="view-all">Ver todos <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                <div class="products-grid"></div>
+            </div>
+            <div id="snacks" class="category">
+                <div class="category-header">
+                    <h3 class="cat-title">🍪 Snacks</h3><button onclick="verCategoria('Snacks')" class="view-all">Ver
+                        todos <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                <div class="products-grid"></div>
+            </div>
+            <div id="lacteos" class="category">
+                <div class="category-header">
+                    <h3 class="cat-title">🥛 Lácteos</h3><button onclick="verCategoria('Lacteos')" class="view-all">Ver
+                        todos <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                <div class="products-grid"></div>
+            </div>
+            <div id="carnes" class="category">
+                <div class="category-header">
+                    <h3 class="cat-title">🍗 Carnes</h3><button onclick="verCategoria('Carnes')" class="view-all">Ver
+                        todos <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                <div class="products-grid"></div>
+            </div>
+        </section>
+
+        <!-- ==================== VISTA DE CATEGORÍA COMPLETA ==================== -->
+        <div id="vistaCategoriaCompleta" style="display: none;">
+            <div class="category-full-view">
+                <div class="category-full-header">
+                    <button id="btnVolver" class="btn-volver" onclick="volverADestacados()">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                    <h2 id="categoriaTitulo" class="categoria-titulo"></h2>
+                </div>
+
+                <!-- Filtros -->
+                <div class="filtros-container">
+                    <div class="filtros-group">
+                        <label>Ordenar por:</label>
+                        <select id="ordenSelect" onchange="aplicarFiltrosYOrden()">
+                            <option value="default">Por defecto</option>
+                            <option value="precio-asc">Precio: menor a mayor</option>
+                            <option value="precio-desc">Precio: mayor a menor</option>
+                            <option value="nombre-asc">Nombre: A - Z</option>
+                            <option value="nombre-desc">Nombre: Z - A</option>
+                            <option value="oferta">En oferta primero</option>
+                        </select>
+                    </div>
+                    <div class="filtros-group">
+                        <label>Mostrar:</label>
+                        <select id="mostrarSelect" onchange="cambiarPagina(1)">
+                            <option value="12">12 productos</option>
+                            <option value="20" selected>20 productos</option>
+                            <option value="40">40 productos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Subcategorías y Productos -->
+                <div class="category-full-content">
+                    <div class="subcategorias-sidebar" id="subcategoriasSidebar">
+                        <h3>Subcategorías</h3>
+                        <div id="listaSubcategorias"></div>
+                    </div>
+                    <div class="productos-container">
+                        <div id="productosFullGrid" class="products-grid-full"></div>
+                        <div id="paginationContainer" class="pagination-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== UBICACIÓN Y MAPA ==================== -->
+        <section id="ubicacion" class="location-section">
+            <div class="location-grid">
+                <div class="location-map">
+                    <h2 class="location-title">Nuestro Local</h2>
+                    <p class="location-address">Av. Larco 1234 - Miraflores</p>
+                    <iframe class="map-frame" loading="lazy" allowfullscreen
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.098!2d-77.0342!3d-12.1214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8f0b0b0b0b0%3A0x1234567890abcdef!2sMiraflores%2C%20Lima!5e0!3m2!1ses!2spe!4v1710000000000"></iframe>
+                </div>
+                <div class="location-info">
+                    <h3 class="info-title"><i class="fa-solid fa-clock"></i> Horario de atencion en tienda</h3>
+                    <div class="schedule">
+                        <div class="schedule-row"><span>Lunes - Viernes</span><span class="schedule-time">8:00 AM -
+                                10:00 PM</span></div>
+                        <div class="schedule-row"><span>Sábados</span><span class="schedule-time">8:00 AM - 11:00
+                                PM</span></div>
+                        <div class="schedule-row"><span>Domingos</span><span class="schedule-time">9:00 AM - 9:00
+                                PM</span></div>
+                    </div>
+                    <h3 class="trust-title">Confianza</h3>
+                    <div class="trust-grid">
+                        <div class="badge">✅ 12 años</div>
+                        <div class="badge">✅ Frescura garantizada</div>
+                        <div class="badge">✅ Envío refrigerado</div>
+                        <div class="badge">✅ +18k reseñas</div>
+                    </div>
+                    <h3 class="trust-title"><i class="fas fa-truck"></i> Horario de delivery</h3>
+                    <div class="top-bar-left">
+                        <div class="top-bar-info">
+                            <span><i class="fas fa-clock"></i> Lun-Dom 9am a 8pm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">🛒</div>
+                        <h2 class="footer-logo-text">Doña Cucha</h2>
+                    </div>
+                    <p class="footer-desc">Tu supermercado online</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Enlaces</h4>
+                    <ul class="footer-links">
+                        <li>Cómo comprar</li>
+                        <li>Métodos de pago</li>
+                        <li>Devoluciones</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Locales</h4>
+                    <ul class="footer-links">
+                        <li>Miraflores</li>
+                        <li>Surco</li>
+                        <li>San Isidro</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Síguenos</h4>
+                    <div class="social-icons"><i class="fa-brands fa-facebook-f"></i><i
+                            class="fa-brands fa-instagram"></i><i class="fa-brands fa-whatsapp"></i></div>
+                </div>
+            </div>
+            <div class="copyright">© 2026 Doña Cucha Market - Todos los derechos reservados</div>
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL LOGIN ==================== -->
+    <div id="loginModal" class="login-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="cerrarLoginModal()">&times;</button>
+            <div class="modal-header">
+                <h2>🛒 Doña Cucha Market</h2>
+                <p>Tu tienda online de confianza</p>
+            </div>
+            <div class="tabs"><button class="tab active" onclick="switchLoginTab('login')">Iniciar
+                    Sesión</button><button class="tab" onclick="switchLoginTab('register')">Crear Cuenta</button></div>
+            <div id="loginTab" class="form-container">
+                <div class="input-group"><input type="email" id="loginEmail" placeholder="Correo electrónico"></div>
+                <div class="input-group"><input type="password" id="loginPassword" placeholder="Contraseña"></div>
+                <div class="checkbox"><input type="checkbox" id="rememberMe"> <label>Recordarme</label></div>
+                <button class="btn" onclick="handleLogin()">Ingresar</button>
+                <div class="demo-alert">Demo: Usuario: demo@email.com / Clave: 123456</div>
+            </div>
+            <div id="registerTab" class="form-container" style="display: none;">
+                <div class="input-group"><input type="text" id="regName" placeholder="Nombre completo"></div>
+                <div class="input-group"><input type="email" id="regEmail" placeholder="Correo electrónico"></div>
+                <div class="input-group"><input type="tel" id="regPhone" placeholder="Teléfono"></div>
+                <div class="input-group"><input type="text" id="regDireccion" placeholder="Dirección de entrega"></div>
+                <div class="input-group"><input type="password" id="regPassword" placeholder="Contraseña"></div>
+                <div class="input-group"><input type="password" id="regConfirmPassword"
+                        placeholder="Confirmar contraseña"></div>
+                <div class="checkbox"><input type="checkbox" id="acceptTerms"> <label>Acepto los <a href="#">Términos y
+                            Condiciones</a></label></div>
+                <button class="btn" onclick="handleRegister()">Registrarse</button>
+                <div class="demo-alert">Demo: Registro simulado</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL PERFIL ==================== -->
+    <div id="profileModal" class="profile-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-circle"></i> Mi Perfil</h2>
+                <button class="close-modal" onclick="cerrarPerfilModal()">&times;</button>
+            </div>
+            <div class="profile-form-container">
+                <div id="perfilDatos">
+                    <!-- Contenido dinámico cargado por JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL CARRITO ==================== -->
+    <div id="cart-modal" class="cart-modal hidden">
+        <div class="cart-modal-content">
+            <div class="cart-header">
+                <h3 class="cart-title">Carrito (<span id="modal-count">0</span>)</h3>
+                <button onclick="ocultarCarrito()" class="close-modal">×</button>
+            </div>
+            <div id="cart-items" class="cart-items"></div>
+
+            <!-- Opciones de entrega -->
+            <div class="cart-delivery-options" id="deliveryOptions" style="padding: 0 24px;">
+                <div class="delivery-title">📦 Selecciona método de entrega</div>
+
+                <div class="delivery-option-group">
+                    <label class="delivery-option">
+                        <input type="radio" name="deliveryType" value="pickup" onchange="cambiarTipoEntrega('pickup')">
+                        <div class="delivery-option-content">
+                            <i class="fas fa-store"></i>
+                            <div>
+                                <strong>Recojo en Tienda</strong>
+                                <small>Recoge tu pedido en nuestro local</small>
+                            </div>
+                        </div>
+                    </label>
+                    <div id="pickupOptions" class="suboptions" style="display: none;">
+                        <div class="suboptions-title">⏰ Tiempo de preparación:</div>
+                        <div class="suboptions-buttons">
+                            <button type="button" class="suboption-btn" data-time="15"
+                                onclick="seleccionarTiempoRecojo('15min')">15 min</button>
+                            <button type="button" class="suboption-btn" data-time="30"
+                                onclick="seleccionarTiempoRecojo('30min')">30 min</button>
+                            <button type="button" class="suboption-btn" data-time="60"
+                                onclick="seleccionarTiempoRecojo('1h')">1 hora</button>
+                        </div>
+                        <div id="tiempoSeleccionado" class="selected-info"></div>
+                    </div>
+                </div>
+
+                <div class="delivery-option-group">
+                    <label class="delivery-option">
+                        <input type="radio" name="deliveryType" value="delivery"
+                            onchange="cambiarTipoEntrega('delivery')">
+                        <div class="delivery-option-content">
+                            <i class="fas fa-truck"></i>
+                            <div>
+                                <strong>Delivery</strong>
+                                <small>Envío a domicilio</small>
+                            </div>
+                        </div>
+                    </label>
+                    <div id="deliveryOptionsDiv" class="suboptions" style="display: none;">
+                        <div class="suboptions-title">💰 Método de pago:</div>
+                        <div class="suboptions-buttons">
+                            <button type="button" class="suboption-btn" data-payment="efectivo"
+                                onclick="seleccionarPagoDelivery('efectivo')">💵 Efectivo</button>
+                            <button type="button" class="suboption-btn" data-payment="yape"
+                                onclick="seleccionarPagoDelivery('yape')">📱 Yape / Plin</button>
+                            <button type="button" class="suboption-btn" data-payment="transferencia"
+                                onclick="seleccionarPagoDelivery('transferencia')">🏦 Transferencia</button>
+                        </div>
+                        <div id="pagoSeleccionado" class="selected-info"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-footer">
+                <div class="cart-total-row">
+                    <span>Total</span>
+                    <span id="cart-total" class="cart-total">S/ 0.00</span>
+                </div>
+                <button id="checkoutBtn" class="checkout-btn" onclick="finalizarCompra()" disabled>PAGAR</button>
+            </div>
+        </div>
+    </div>
+    <script src="javascript.js"></script>
+</body>
+
+</html>
